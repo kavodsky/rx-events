@@ -12,4 +12,4 @@ def event_bus():
 @pytest.fixture
 def test_channel(event_bus):
     """Create a test channel."""
-    return event_bus.create_channel("test_channel", timeout_seconds=300)
+    return event_bus.create_ack_channel("test_channel", timeout_seconds=300)

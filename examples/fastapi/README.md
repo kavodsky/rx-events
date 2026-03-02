@@ -369,7 +369,7 @@ class MyCustomEvent(BaseEvent):
 
 # Use it
 bus = EventBus()
-bus.create_channel("my_channel")
+bus.create_ack_channel("my_channel")
 event = MyCustomEvent(user_id="123", data={"key": "value"})
 # Pydantic provides built-in serialization
 print(event.model_dump())  # Convert to dict
@@ -384,7 +384,7 @@ For detailed documentation, see [docs/EXTENDING_EVENTS.md](docs/EXTENDING_EVENTS
 
 1. Create a new channel in `src/main.py`:
 ```python
-event_bus.create_channel(
+event_bus.create_ack_channel(
     "new_channel",
     allow_duplicates=False,
     timeout_seconds=120

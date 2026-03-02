@@ -27,6 +27,7 @@ from .events import (
 )
 from .event_bus import EventBus, event_bus
 from .ack_channel import AckChannel
+from .channel import Channel
 
 __all__ = [
     # Enums
@@ -41,6 +42,7 @@ __all__ = [
     "EventBus",
     "event_bus",
     # Channels
+    "Channel",
     "AckChannel",
 ]
 

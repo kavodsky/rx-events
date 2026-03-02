@@ -14,19 +14,19 @@ async def lifespan(app: FastAPI):
     """Application lifecycle with proper channel setup"""
 
     # Initialize event channels with different configurations
-    event_bus.create_channel(
+    event_bus.create_ack_channel(
         "user_analysis",
         allow_duplicates=False,
         timeout_seconds=180  # 3 minutes for complex ML
     )
 
-    event_bus.create_channel(
+    event_bus.create_ack_channel(
         "recommendations",
         allow_duplicates=False,
         timeout_seconds=300  # 5 minutes for heavy processing
     )
 
-    event_bus.create_channel(
+    event_bus.create_ack_channel(
         "analytics",
         allow_duplicates=True,
         timeout_seconds=60  # 1 minute for quick analytics

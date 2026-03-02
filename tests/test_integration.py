@@ -13,7 +13,7 @@ class TestIntegration:
     async def test_complete_event_workflow(self):
         """Test complete workflow: publish -> subscribe -> process -> acknowledge."""
         bus = EventBus()
-        bus.create_channel("test_channel", timeout_seconds=300)
+        bus.create_ack_channel("test_channel", timeout_seconds=300)
         
         events_received = []
         acks_received = []
@@ -89,7 +89,7 @@ class TestIntegration:
                 return {"user_id": self.user_id, "action": self.action}
         
         bus = EventBus()
-        bus.create_channel("test_channel")
+        bus.create_ack_channel("test_channel")
         
         custom_event = CustomEvent(user_id="123", action="login")
         
@@ -106,7 +106,7 @@ class TestIntegration:
     async def test_multiple_events_processing(self):
         """Test processing multiple events."""
         bus = EventBus()
-        bus.create_channel("test_channel")
+        bus.create_ack_channel("test_channel")
         
         events = [
             Event.create(event_type="event1", payload={"id": i})

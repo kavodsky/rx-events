@@ -51,7 +51,7 @@ class MyEvent(BaseEvent):
 
 # Create event bus and channel
 bus = EventBus()
-bus.create_channel("my_channel", timeout_seconds=180)
+bus.create_ack_channel("my_channel", timeout_seconds=180)
 
 # Publish event
 event = MyEvent(user_id="123", data={"key": "value"})
@@ -130,7 +130,7 @@ pytest --cov=rx_events --cov-report=html
 
 ### EventBus Methods
 
-- `create_channel(name, allow_duplicates=False, timeout_seconds=300)` - Create a new channel
+- `create_ack_channel(name, allow_duplicates=False, timeout_seconds=300)` - Create a new acknowledgment channel
 - `get_channel(name)` - Get an existing channel
 - `publish(channel_name, event)` - Publish an event to a channel
 - `acknowledge(channel_name, ack)` - Send an acknowledgment

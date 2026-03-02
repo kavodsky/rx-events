@@ -17,7 +17,7 @@ class TestEventBus:
     def test_create_channel(self):
         """Test creating a channel."""
         bus = EventBus()
-        channel = bus.create_channel("test_channel", timeout_seconds=60)
+        channel = bus.create_ack_channel("test_channel", timeout_seconds=60)
         
         assert channel.name == "test_channel"
         assert channel.timeout_seconds == 60
@@ -26,15 +26,15 @@ class TestEventBus:
     def test_create_duplicate_channel(self):
         """Test that creating duplicate channel raises error."""
         bus = EventBus()
-        bus.create_channel("test_channel")
+        bus.create_ack_channel("test_channel")
         
         with pytest.raises(ValueError, match="already exists"):
-            bus.create_channel("test_channel")
+            bus.create_ack_channel("test_channel")
     
     def test_get_channel(self):
         """Test getting an existing channel."""
         bus = EventBus()
-        created = bus.create_channel("test_channel")
+        created = bus.create_ack_channel("test_channel")
         retrieved = bus.get_channel("test_channel")
         
         assert retrieved is created
@@ -50,7 +50,7 @@ class TestEventBus:
     async def test_publish_event(self):
         """Test publishing an event."""
         bus = EventBus()
-        bus.create_channel("test_channel")
+        bus.create_ack_channel("test_channel")
         
         event = Event.create(
             event_type="test_event",
@@ -74,7 +74,7 @@ class TestEventBus:
                 return {"data": self.data}
         
         bus = EventBus()
-        bus.create_channel("test_channel")
+        bus.create_ack_channel("test_channel")
         
         custom_event = CustomEvent(data="test")
         result = await bus.publish("test_channel", custom_event)
@@ -90,7 +90,7 @@ class TestEventBus:
     async def test_acknowledge_event(self):
         """Test acknowledging an event."""
         bus = EventBus()
-        bus.create_channel("test_channel")
+        bus.create_ack_channel("test_channel")
         
         event = Event.create(
             event_type="test_event",
@@ -112,7 +112,7 @@ class TestEventBus:
     async def test_acknowledge_nonexistent_event(self):
         """Test acknowledging a non-existent event."""
         bus = EventBus()
-        bus.create_channel("test_channel")
+        bus.create_ack_channel("test_channel")
         
         ack = EventAck.create(
             event_uuid="nonexistent-uuid",
@@ -130,7 +130,7 @@ class TestEventBusIntegration:
     async def test_full_event_lifecycle(self):
         """Test complete event lifecycle: publish -> process -> acknowledge."""
         bus = EventBus()
-        bus.create_channel("test_channel", timeout_seconds=300)
+        bus.create_ack_channel("test_channel", timeout_seconds=300)
         
         # Publish event
         event = Event.create(
@@ -173,8 +173,8 @@ class TestEventBusIntegration:
     async def test_multiple_channels(self):
         """Test using multiple channels."""
         bus = EventBus()
-        bus.create_channel("channel1")
-        bus.create_channel("channel2")
+        bus.create_ack_channel("channel1")
+        bus.create_ack_channel("channel2")
         
         event1 = Event.create(event_type="event1", payload={})
         event2 = Event.create(event_type="event2", payload={})
